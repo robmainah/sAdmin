@@ -1,0 +1,121 @@
+body {
+    background: #e9ecef;
+}
+nav.navbar {
+    background-color: #3490dc;
+}
+#menu_toggle {
+    position: absolute;
+    left: 150px;
+    cursor: pointer;
+    top: 1em;
+}
+#menu_toggle span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px 0px;
+    background: #000000;
+}
+#sidebar-wrapper {
+    position: fixed;
+    width: 17%;
+    overflow-x: hidden;
+    border-right: 1px #dddddd solid;
+    transition: 0.5s;
+    height: 100%;
+    background: #6a6969;
+}
+#wrapper.menuDisplayed #sidebar-wrapper {
+    width: 0%;
+}
+#page-content-wrapper {
+    // margin-top: .4rem;
+    padding-top: .5rem;
+    min-height: 100%;
+    width: 83%;
+    height: 92.5vh;
+    margin-left: 17%;
+    transition: 0.5s;
+}
+#wrapper.menuDisplayed #page-content-wrapper {
+    transition: 0.5s;
+    background: #fff;
+    margin-left: 0%;
+    width: 100%;
+    z-index: auto;
+}
+/****** Sidebar Styles******/
+.sidebar-nav .list-group {
+    border-radius: unset;
+}
+.sidebar-nav .list-group-item {
+    background: transparent !important;
+    border-top: none;
+    border-bottom: 1px solid rgba(206, 206, 206, 0.502);
+    color: #fff;
+    font-size: 1rem;
+    padding-left: 1rem;
+    transition: 0.3s;
+    font-weight: 500;
+}
+.sidebar-nav .list-group-item:hover {
+    background-color: #3490dc !important;
+    color: #fff;
+    padding-left: 2rem;
+}
+.sidebar-nav .list-group-item:active {
+	background-color: #3490dc;
+}
+.dashboard {
+    color: #fff;
+    font-size: 1.55rem;
+    font-weight: bold;
+}
+
+/****** End Sidebar Styles******/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// $primaryColor: #eeffcc;
+// $firstValue: 62.5%;
+
+// $firstValue: 24px !default;
+
+// $buttonColor: #2ecc71;
+// $buttonDark: darken($buttonColor, 10%);
+// $buttonDarker: darken($buttonDark, 10%);
+
+// button {
+//   background: $buttonColor;
+//   box-shadow: 0px 5px 0px $buttonDark;
+//   &:hover {
+//     background: $buttonDark;
+//     box-shadow: 0px 5px 0px $buttonDarker;
+//   }
+//   &:active {
+//     box-shadow: none;
+//     margin-top: 5px;
+//   }
+// }
+
+// body {
+// 	background-color: $primaryColor;
+// 	font-size: $firstValue;
+// }
