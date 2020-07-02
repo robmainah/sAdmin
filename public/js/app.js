@@ -49839,8 +49839,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\work\code\laravel\sadmin\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\work\code\laravel\sadmin\resources\sass\custom.scss */"./resources/sass/custom.scss");
+__webpack_require__(/*! D:\work\code\laravel\sAdmin\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\work\code\laravel\sAdmin\resources\sass\custom.scss */"./resources/sass/custom.scss");
 
 
 /***/ })

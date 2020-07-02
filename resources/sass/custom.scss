@@ -4,6 +4,12 @@ body {
 nav.navbar {
     background-color: #3490dc;
 }
+.navbar-brand {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    font-size: 1.5rem;
+    font-style: italic;
+}
 #menu_toggle {
     position: absolute;
     left: 150px;
@@ -46,26 +52,32 @@ nav.navbar {
     z-index: auto;
 }
 /****** Sidebar Styles******/
-.sidebar-nav .list-group {
-    border-radius: unset;
-}
-.sidebar-nav .list-group-item {
-    background: transparent !important;
-    border-top: none;
-    border-bottom: 1px solid rgba(206, 206, 206, 0.502);
-    color: #fff;
-    font-size: 1rem;
-    padding-left: 1rem;
-    transition: 0.3s;
-    font-weight: 500;
-}
-.sidebar-nav .list-group-item:hover {
-    background-color: #3490dc !important;
-    color: #fff;
-    padding-left: 2rem;
-}
-.sidebar-nav .list-group-item:active {
-	background-color: #3490dc;
+.sidebar-nav {
+    .list-group {
+        border-radius: unset;
+    }
+    .list-group-item {
+        background: transparent !important;
+        border-top: none;
+        border-bottom: 1px solid rgba(206, 206, 206, 0.502);
+        color: #fff;
+        font-size: 1rem;
+        padding-left: 1rem;
+        transition: 0.3s;
+        font-weight: 500;
+    }
+    .list-group-item:hover {
+        background-color: #3490dc !important;
+        color: #fff;
+        padding-left: 2rem;
+    }
+    .list-group-item:active {
+        background-color: #3490dc;
+    }
+    a i {
+        font-size: 1.3rem;
+        color: #3490dc;
+    }
 }
 .dashboard {
     color: #fff;
@@ -74,6 +86,31 @@ nav.navbar {
 }
 
 /****** End Sidebar Styles******/
+
+/****** Products Styles******/
+.cont-title .input-group-text {
+    background-color: #3490dc;
+    border-color: #3490dc;
+    color: #fff;
+}
+.cont-body {
+    height: 39rem;
+    padding: 1rem;
+    padding-top: .5rem;
+    .table-responsive {
+        height: 35rem;
+    }
+    .cont-pagination {
+        position: absolute;
+        bottom: -.7rem;
+    }
+}
+#page-content-wrapper .container-fluid {
+    padding-right: 5px;
+    padding-left: 10px;
+}
+/****** End Products Styles******/
+
 
 
 

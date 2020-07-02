@@ -1,9 +1,8 @@
 <div id="sidebar-wrapper" class="admin-sidebar">
     <ul class="list-group rounded-0">
-        <span>
-            <i class="menu-icon fa fa-tachometer-alt"></i>
-        </span>
-        <li class="list-group-item bg-dark dashboard">DASHBOARD</li>
+        <li class="list-group-item bg-dark dashboard">
+            <span> <i class="menu-icon fa fa-tachometer-alt"></i> </span>DASHBOARD
+        </li>
     </ul>
     <div class="sidebar-nav">
         <div class="list-group">
