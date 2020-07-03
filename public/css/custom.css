@@ -88,7 +88,6 @@ nav.navbar {
 
 .sidebar-nav a i {
   font-size: 1.3rem;
-  color: #3490dc;
 }
 
 .dashboard {
@@ -120,6 +119,14 @@ nav.navbar {
 .cont-body .cont-pagination {
   position: absolute;
   bottom: -0.7rem;
+}
+
+.cont-show th {
+  width: 15rem;
+}
+
+.cont-show img {
+  width: 10rem;
 }
 
 #page-content-wrapper .container-fluid {

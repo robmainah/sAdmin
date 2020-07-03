@@ -20,7 +20,7 @@ $factory->define(Product::class, function (Faker $faker) {
         'slug' => Str::slug($title),
         'description' => $faker->paragraph,
         'price' => rand(111, 5010),
-        'quantity' => $faker->randomDigit,
+        'quantity' => rand(5, 20),
         'image' => "images/546819.jpeg",
         'created_by' => function () {
             return User::all()->random();

@@ -76,7 +76,7 @@ nav.navbar {
     }
     a i {
         font-size: 1.3rem;
-        color: #3490dc;
+        // color: #3490dc;
     }
 }
 .dashboard {
@@ -103,6 +103,14 @@ nav.navbar {
     .cont-pagination {
         position: absolute;
         bottom: -.7rem;
+    }
+}
+.cont-show {
+    th {
+        width: 15rem;
+    }
+    img {
+        width: 10rem;
     }
 }
 #page-content-wrapper .container-fluid {

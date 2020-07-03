@@ -6,7 +6,15 @@
     </ul>
     <div class="sidebar-nav">
         <div class="list-group">
-            <a href="#" class="list-group-item list-group-item-action">
+            <a href="{{ route('categories.index') }}" class="list-group-item list-group-item-action">
+                <span>
+                    <i class="fa fa-cart-arrow-down"></i>
+                </span>
+                <span>Categories</span>
+            </a>
+        </div>
+        <div class="list-group">
+            <a href="{{ route('products.index') }}" class="list-group-item list-group-item-action">
                 <span>
                     <i class="fa fa-cart-arrow-down"></i>
                 </span>
