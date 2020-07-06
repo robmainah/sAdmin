@@ -13,7 +13,7 @@
                             <h5 class="text-right">
                                 <a href="{{ route('products.create') }}" class="btn btn-success px-1 py-1"><i class="fa fa-plus"></i> New</a>
                                 <a href="#" class="btn btn-primary px-1 py-1"><i class="fa fa-print"></i> Print</a>
-                                <a href="#" class="btn btn-danger px-1 py-1"><i class="fa fa-trash"></i> Delete</a>
+                                <a href="" class="btn btn-danger px-1 py-1"><i class="fa fa-trash"></i> Delete</a>
                             </h5>
                         </div>
                         <div class="col-sm-6">
@@ -33,38 +33,56 @@
                 </div>
             </div>
             <div class="card-body cont-body">
+                @if (session('status'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('status') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered table-hover">
                         <thead class="thead-dark">
                             <tr>
+                                {{-- <th scope="col"></th> --}}
                                 <th scope="col">#</th>
-                                {{-- <th scope="col">Image</th> --}}
-                                <th scope="col">Category</th>
                                 <th scope="col">Title</th>
                                 <th scope="col">Slug</th>
-                                <th scope="col">Price</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Price ( <strong>KSH</strong> )</th>
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Created By</th>
                                 <th scope="col">Created On</th>
-                                <th scope="col"></th>
+                                <th class="actions" scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($products as $product)
                                 <tr>
+                                    {{-- <th>
+                                        <form action="">
+                                            <input type="checkbox" name="prod_ids[]" value="{{ $product->id }}">
+                                        </form>
+                                    </th> --}}
                                     <th scope="row">{{ $loop->iteration }}</th>
-                                    {{-- <td class="p-1"><img src="{{ asset($product->image) }}" width="50px"></td> --}}
+                                    <td>{{ Str::limit($product->title, 25) }}</td>
+                                    <td>{{ Str::limit($product->slug, 25) }}</td>
                                     <td>{{ $product->category->cat_name }}</td>
-                                    <td>{{ $product->title }}</td>
-                                    <td>{{ $product->slug }}</td>
-                                    <td>{{ $product->price }}</td>
+                                    <td>{{ number_format($product->price, 2) }}</td>
                                     <td>{{ $product->quantity }}</td>
                                     <td>{{ $product->created_by }}</td>
                                     <td>{{ $product->created_at->format('Y-m-d') }}</td>
                                     <td class="p-2">
-                                        <a href="{{ route('products.show', $product->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></a>
-                                        <a href="{{ route('products.edit', $product->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-pencil"></i></a>
-                                        <a href="{{ route('products.destroy', $product->id) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                                        <a href="{{ route('products.show', $product->id) }}" class="btn btn-primary btn-sm">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        <a href="{{ route('products.edit', $product->id) }}" class="btn btn-warning btn-sm">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteProduct">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -73,6 +91,30 @@
                 </div>
                 <div class="cont-pagination mb-1">
                     {{ $products->links() }}
+                </div>
+            </div>
+        </div>
+        <!-- Modal to confirm deletion -->
+        <div class="modal fade" id="deleteProduct" tabindex="-1" role="dialog" aria-labelledby="deleteProductModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteProductModalLabel">Delete Product(s)</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+                        <form id="delete-form" action="{{ route('products.destroy', $product->id) }}" method="POST">
+                            @method('DELETE')
+                            @csrf
+                            <button type="submit" class="btn btn-danger">Yes, Delete!</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

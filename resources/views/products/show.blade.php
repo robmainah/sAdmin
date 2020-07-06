@@ -14,7 +14,7 @@
                         <tbody>
                             <tr>
                                 <th scope="col">Image</th>
-                                <td class="p-1"><img src="{{ asset($product->image) }}"></td>
+                                <td class="p-1"><img src="{{ asset('storage/'.$product->image) }}"></td>
                             </tr>
                             <tr>
                                 <th scope="col">Product Code</th>
@@ -34,7 +34,7 @@
                             </tr>
                             <tr>
                                 <th scope="col">Price</th>
-                                <td>{{ $product->price }}</td>
+                                <td><strong>KSH. </strong>{{ number_format($product->price) }}</td>
                             </tr>
                             <tr>
                                 <th scope="col">Quantity</th>

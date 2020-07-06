@@ -8,8 +8,18 @@
             <div class="card-header pt-2 pb-1">
                 <h2 class="float-left text-primary font-italic">Add New Product</h2>
             </div>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="card-body cont-body pr-4 pl-4">
-                <form class="needs-validation" enctype="multipart/form-data" novalidate>
+                <form class="needs-validation" action="{{ route('products.store') }}" method="post" enctype="multipart/form-data" novalidate>
+                    @csrf
                     <div class="form-row">
                         <div class="col-md-6 form-group">
                             <label for="title">Product Title</label>
@@ -19,10 +29,10 @@
                         <div class="col-md-6 form-group">
                             <label for="category">Product Category</label>
                             <select class="custom-select" name="category" required>
-                            <option value="">Open this select menu</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                            <option value="">Select Category</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->cat_name }}</option>
+                            @endforeach
                             </select>
                             <div class="invalid-feedback"> Choose a Category. </div>
                         </div>
@@ -51,7 +61,7 @@
                             <label for="title">Product Image</label>
                             <div class="custom-file">
                                 <label class="custom-file-label" for="chooseimage">Choose image...</label>
-                                <input type="file" class="custom-file-input" id="image" required>
+                                <input type="file" class="custom-file-input" name="image" required>
                                 <div class="invalid-feedback">Select Product Image</div>
                             </div>
                         </div>

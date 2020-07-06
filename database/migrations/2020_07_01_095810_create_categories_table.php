@@ -16,7 +16,7 @@ class CreateCategoriesTable extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('cat_name');
-            $table->integer('cat_code')->unsigned()->unique();
+            $table->bigInteger('cat_code')->unsigned()->unique();
             $table->bigInteger('created_by')->unsigned();
             $table->bigInteger('updated_by')->unsigned();
             $table->string('active')->default(True);

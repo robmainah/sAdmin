@@ -121,6 +121,10 @@ nav.navbar {
   bottom: -0.7rem;
 }
 
+.cont-body .actions {
+  min-width: 5rem;
+}
+
 .cont-show th {
   width: 15rem;
 }
