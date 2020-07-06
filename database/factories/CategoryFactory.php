@@ -12,7 +12,7 @@ $factory->define(Category::class, function (Faker $faker) {
     return [
         'cat_code' => $faker->unique()->numberBetween(111111, 999999),
         'cat_name' => $faker->randomElement($cat),
-        'active' => $faker->boolean,
+        'is_active' => $faker->boolean,
         'created_by' => function () {
             return User::all()->random();
         },

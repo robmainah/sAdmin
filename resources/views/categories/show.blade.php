@@ -7,11 +7,17 @@
         <div class="card">
             <div class="card-header pt-2 pb-1">
                 <div class="row">
-                    <div class="col-sm-2">
-                        <h2 class="float-left text-primary font-italic">{{ $category->cat_name }}</h2>
+                    <div class="col-sm-3">
+                        <h2 class="float-left text-primary font-italic">{{ $category->cat_name }}'s Details</h2>
+                    </div>
+                    <div class="col-sm-1">
+                        <h2><a href="{{ route('categories.edit', $category->id) }}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a></h2>
                     </div>
                     <div class="col-sm-3">
-                        <h2><a href="{{ route('categories.edit', $category->id) }}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a></h2>
+                        <h2><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteCategory">
+                            <i class="fa fa-trash"></i> Delete
+                        </button></h2>
+                        {{-- <h2><a href="{{ route('categories.destroy', $category->id) }}" class="btn btn-danger"><i class="fa fa-trash"></i> Delete</a></h2> --}}
                     </div>
                 </div>
                 {{-- <h2 class="float-left text-primary font-italic">{{ $category->cat_name }}</h2> --}}
@@ -43,7 +49,7 @@
                             </tr>
                             <tr>
                                 <th scope="col">No. Of Products</th>
-                                <td>{{ $category->products->count() }}</td>
+                                <td>{{ $category->products_count }}</td>
                             </tr>
                             <tr>
                                 <th rowspan="2">Created</th>
@@ -61,6 +67,30 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal to confirm deletion -->
+    <div class="modal fade" id="deleteCategory" tabindex="-1" role="dialog" aria-labelledby="deleteCategoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteProductModalLabel">Delete Category(s)</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete?
+                </div>
+                <div class="modal-footer">
+                    <form id="delete-form" action="{{ route('categories.destroy', $category->id) }}" method="POST">
+                        @method('DELETE')
+                        @csrf
+                        <button type="submit" class="btn btn-danger">Yes, Delete!</button>
+                    </form>
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>

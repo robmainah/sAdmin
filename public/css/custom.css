@@ -125,6 +125,10 @@ nav.navbar {
   min-width: 5rem;
 }
 
+.cont-body .is-invalid ~ .invalid-feedback {
+  font-size: 90%;
+}
+
 .cont-show th {
   width: 15rem;
 }

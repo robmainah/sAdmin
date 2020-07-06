@@ -19,7 +19,7 @@ class CreateCategoriesTable extends Migration
             $table->bigInteger('cat_code')->unsigned()->unique();
             $table->bigInteger('created_by')->unsigned();
             $table->bigInteger('updated_by')->unsigned();
-            $table->string('active')->default(True);
+            $table->string('is_active')->default(True);
             $table->softDeletes();
             $table->timestamps();
 

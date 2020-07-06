@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Product extends Model
 {
     use SoftDeletes;
-    
+
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -34,7 +34,7 @@ class Product extends Model
         $random_code = rand(1111111111, 9999999999);
         $value = $query->where('prod_code', $random_code)->get();
         if (count($value) > 0) {
-            return Self::generateProductNumber();
+            return Self::generateProductCode();
         }
 
         return $random_code;

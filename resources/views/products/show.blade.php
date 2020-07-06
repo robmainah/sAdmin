@@ -22,7 +22,13 @@
                             </tr>
                             <tr>
                                 <th scope="col">Category</th>
-                                <td>{{ $product->category->cat_name }}</td>
+                                <td>
+                                    @if ($product->category)
+                                        {{ $product->category->cat_name }}
+                                    @else
+                                        <span class="text-danger">Deleted</span>
+                                    @endif
+                                </td>
                             </tr>
                             <tr>
                                 <th scope="col">Title</th>

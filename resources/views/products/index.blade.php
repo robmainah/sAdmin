@@ -68,7 +68,13 @@
                                     <th scope="row">{{ $loop->iteration }}</th>
                                     <td>{{ Str::limit($product->title, 25) }}</td>
                                     <td>{{ Str::limit($product->slug, 25) }}</td>
-                                    <td>{{ $product->category->cat_name }}</td>
+                                    <td>
+                                        @if ($product->category)
+                                            {{ $product->category->cat_name }}
+                                        @else
+                                            <span class="text-danger">Deleted</span>
+                                        @endif
+                                    </td>
                                     <td>{{ number_format($product->price, 2) }}</td>
                                     <td>{{ $product->quantity }}</td>
                                     <td>{{ $product->created_by }}</td>

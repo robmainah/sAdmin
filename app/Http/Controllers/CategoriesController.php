@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Categories\AddCategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -21,7 +22,7 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        $categories = Category::paginate(10);
+        $categories = Category::latest()->withCount('products')->paginate(10);
 
         return view('categories.index', [ 'categories' => $categories]);
     }
@@ -42,9 +43,19 @@ class CategoriesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AddCategoryRequest $request)
     {
-        //
+        $cat = new Category;
+
+        $cat->cat_code = Category::generateCategoryCode();
+        $cat->cat_name = $request->name;
+        $cat->active = $request->status;
+        $cat->created_by = auth()->user()->id;
+        $cat->updated_by = auth()->user()->id;
+
+        $cat->save();
+
+        return redirect()->route('categories.index')->with(['status' => "Category add successfully"]);
     }
 
     /**
@@ -55,6 +66,7 @@ class CategoriesController extends Controller
      */
     public function show(Category $category)
     {
+        $category = Category::withCount('products')->findOrFail($category->id);
         return view('categories.show', ['category' => $category]);
     }
 
@@ -89,6 +101,8 @@ class CategoriesController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        Category::destroy($category->id);
+
+        return redirect()->route('categories.index')->with('status', 'Category Deleted successfully');
     }
 }
