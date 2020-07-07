@@ -65,7 +65,7 @@
                                 <button class="btn btn-success px-1 py-1 new_category" onclick="newCategory()"><i class="fa fa-plus"></i> New</button>
                                 {{-- <a href="" class="btn btn-success px-1 py-1 new_category"><i class="fa fa-plus"></i> New</a> --}}
                                 <a href="#" class="btn btn-primary px-1 py-1"><i class="fa fa-print"></i> Print</a>
-                                <a href="#" class="btn btn-danger px-1 py-1"><i class="fa fa-trash"></i> Delete</a>
+                                <a href="javascript:;" class="btn btn-danger px-1 py-1" onclick="deleteAll()"><i class="fa fa-trash"></i> Delete</a>
                             </h5>
                         </div>
                         <div class="col-sm-6">
@@ -85,7 +85,7 @@
             </div>
             <div class="card-body cont-body">
                 @if (session('status'))
-                    <div class="alert alert-success alert-dismissible fade alert_message show" onload="hideMessage()" role="alert">
+                    <div class="alert alert-success alert-dismissible fade alert_message show" role="alert">
                         {{ session('status') }}
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -96,6 +96,7 @@
                     <table class="table table-striped table-bordered table-hover">
                         <thead class="thead-dark">
                             <tr>
+                                <th scope="col"></th>
                                 <th scope="col">#</th>
                                 <th scope="col">Catgory Code</th>
                                 <th scope="col">Category Name</th>
@@ -107,9 +108,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($categories as $category)
+                            @foreach ($categories as $key => $category)
                                 <tr>
-                                    <th scope="row">{{ $loop->iteration }}</th>
+                                    <th>
+                                        <div class="form-check tb-check">
+                                            <input class="form-check-input cat_checkbox" type="checkbox"
+                                            data-id="{{ $category->id }}" onclick="checkCategories()" />
+                                            <label class="form-check-label" for="defaultCheck1"></label>
+                                        </div>
+                                    </th>
+                                    <th scope="row">{{ ++$key }}</th>
                                     <td>{{ $category->cat_code }}</td>
                                     <td>{{ $category->cat_name }}</td>
                                     <td>
@@ -123,11 +131,14 @@
                                     <td>{{ $category->created_by }}</td>
                                     <td>{{ $category->created_at->format('Y-m-d') }}</td>
                                     <td class="p-2">
-                                        <a href="{{ route('categories.show', $category->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></a>
-                                        <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-pencil"></i></a>
-                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteCategory">
+                                        <a href="{{ route('categories.show', $category->id) }}"
+                                            class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></a>
+                                        <a href="{{ route('categories.edit', $category->id) }}"
+                                            class="btn btn-warning btn-sm"><i class="fa fa-pencil"></i></a>
+                                        <a href="{{ route('categories.destroy', $category->id) }}" id="del_cat{{ $category->id }}"
+                                            onclick="deleteCategory({{ $category->id }})" class="btn btn-danger btn-sm single_del">
                                             <i class="fa fa-trash"></i>
-                                        </button>
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -141,7 +152,7 @@
         </div>
     </div>
     <!-- Modal to confirm deletion -->
-    <div class="modal fade" id="deleteCategory" tabindex="-1" role="dialog" aria-labelledby="deleteCategoryModalLabel" aria-hidden="true">
+    <div class="modal fade" id="delete_category" tabindex="-1" role="dialog" aria-labelledby="deleteCategoryModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -154,9 +165,10 @@
                     Are you sure you want to delete?
                 </div>
                 <div class="modal-footer">
-                    <form id="delete-form" action="{{ route('categories.destroy', $category->id) }}" method="POST">
+                    <form id="delete-category-form" action="{{ route('categories.destroy', $category->id) }}" method="POST">
                         @method('DELETE')
                         @csrf
+                        <input type="hidden" id="multiple_ids" name="multiple_ids">
                         <button type="submit" class="btn btn-danger">Yes, Delete!</button>
                     </form>
                     <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
@@ -167,8 +179,47 @@
 @endsection
 @section('scripts')
     <script>
-        function hideMessage() {
-            alert()
+        function checkCategories() {
+            const allCheckboxInputs = document.querySelectorAll(".cat_checkbox")
+            for (const el of allCheckboxInputs) {
+                if(el.checked == true)
+                {
+                    const allBtns = document.querySelectorAll('.single_del')
+                    allBtns.forEach((ele) => {
+                        ele.classList.add('d-none')
+                    })
+                    break
+                }
+                else {
+                    const allBtns = document.querySelectorAll('.single_del')
+                    allBtns.forEach((ele) => {
+                        ele.classList.remove('d-none')
+                    })
+                }
+            }
+        }
+        function getCheckCategories() {
+            const allCheckboxInputs = document.querySelectorAll(".cat_checkbox")
+            let allCheckedCategories = []
+            allCheckboxInputs.forEach((el) => {
+                if(el.checked === true)
+                {
+                    const data_id = el.getAttribute('data-id')
+                    allCheckedCategories.push(data_id)
+                }
+            })
+            return allCheckedCategories
+        }
+        function deleteAll() {
+            const form = document.querySelector("#delete-category-form").setAttribute('action', "{{ route('categories.delete-multiple') }}")
+            document.querySelector("#multiple_ids").setAttribute('value', getCheckCategories())
+            $('#delete_category').modal('show')
+        }
+        function deleteCategory(category_id) {
+            event.preventDefault()
+            const href_url = document.querySelector("#del_cat"+category_id).getAttribute('href')
+            const form = document.querySelector("#delete-category-form").setAttribute('action', href_url)
+            $('#delete_category').modal('show')
         }
         function clearValidation() {
             document.querySelector('form.needs-validation').classList.remove('was-validated')

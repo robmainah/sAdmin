@@ -23,3 +23,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 // Route::get('/products', 'ProductsController@index')->name('products');
 Route::resource('products', 'ProductsController');
 Route::resource('categories', 'CategoriesController');
+Route::delete('categories-delete-multiple', 'CategoriesController@deleteMultiple')->name('categories.delete-multiple');

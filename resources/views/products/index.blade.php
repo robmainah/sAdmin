@@ -58,7 +58,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($products as $product)
+                            @foreach ($products as $key => $product)
                                 <tr>
                                     {{-- <th>
                                         <form action="">

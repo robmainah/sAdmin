@@ -103,6 +103,16 @@ class CategoriesController extends Controller
     {
         Category::destroy($category->id);
 
-        return redirect()->route('categories.index')->with('status', 'Category Deleted successfully');
+        return redirect()->route('categories.index')->with('status', $category->id . ' - Category Deleted successfully');
+    }
+
+    public function deleteMultiple(Request $request)
+    {
+        // $ids = $request->multiple_ids;
+        $category = Category::destroy(explode(",", $request->multiple_ids));
+
+        if ($category) {
+            return redirect()->route('categories.index')->with('status', $request->multiple_ids . ' - Categories Deleted successfully');
+        }
     }
 }
