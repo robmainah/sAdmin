@@ -20,8 +20,8 @@ $factory->define(Product::class, function (Faker $faker) {
         'slug' => Str::slug($title),
         'description' => $faker->paragraph,
         'price' => rand(111, 5010),
-        'quantity' => rand(5, 20),
-        'image' => "images/546819.jpeg",
+        'stock' => rand(5, 20),
+        'image_url' => "images/546819.jpeg",
         'created_by' => function () {
             return User::all()->random();
         },

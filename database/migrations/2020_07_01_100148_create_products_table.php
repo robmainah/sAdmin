@@ -21,8 +21,8 @@ class CreateProductsTable extends Migration
             $table->string('slug');
             $table->text('description');
             $table->decimal('price', 8, 2);
-            $table->integer('quantity')->unsigned();
-            $table->string('image');
+            $table->integer('stock')->unsigned();
+            $table->string('image_url');
             $table->bigInteger('created_by')->unsigned();
             $table->bigInteger('updated_by')->unsigned();
             $table->softDeletes();

@@ -53,12 +53,12 @@
                             </div>
                         </div>
                         <div class="col-md-6 form-group">
-                            <label for="quantity">Quantity</label>
-                            <input type="text" class="form-control {{ $errors->has('quantity') ? 'is-invalid' : '' }}" name="quantity" placeholder="Quantity"
-                            value="{{ old('quantity') }}" required>
-                            @if ($errors->has('quantity'))
+                            <label for="stock">Stock Quantity</label>
+                            <input type="text" class="form-control {{ $errors->has('stock') ? 'is-invalid' : '' }}" name="stock" placeholder="Stock Quantity"
+                            value="{{ old('stock') }}" required>
+                            @if ($errors->has('stock'))
                                 <div class="invalid-feedback">
-                                    {{ $errors->first('quantity') }}
+                                    {{ $errors->first('stock') }}
                                 </div>
                             @endif
                         </div>

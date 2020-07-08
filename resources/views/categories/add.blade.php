@@ -14,7 +14,7 @@
                         <div class="col-md-6 form-group">
                             <label for="title">Product Title</label>
                             <input type="text" class="form-control" name="title" id="title" placeholder="Product Title" value="" required>
-                            <div class="invalid-feedback"> Enter correct product title </div>
+                            <div class="invalid-feedback"> Enter correct category title </div>
                         </div>
                         <div class="col-md-6 form-group">
                             <label for="category">Product Category</label>

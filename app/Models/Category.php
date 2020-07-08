@@ -12,6 +12,7 @@ class Category extends Model
     protected $casts = [
         'active' => 'boolean',
     ];
+    protected $dates = ['deleted_at'];
 
     public function products()
     {

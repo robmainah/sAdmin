@@ -13,14 +13,14 @@
                             <h5 class="text-right">
                                 <a href="{{ route('products.create') }}" class="btn btn-success px-1 py-1"><i class="fa fa-plus"></i> New</a>
                                 <a href="#" class="btn btn-primary px-1 py-1"><i class="fa fa-print"></i> Print</a>
-                                <a href="" class="btn btn-danger px-1 py-1"><i class="fa fa-trash"></i> Delete</a>
+                                <a href="javascript:;" class="btn btn-danger px-1 py-1 " onclick="deleteProducts()"><i class="fa fa-trash"></i> Delete</a>
                             </h5>
                         </div>
                         <div class="col-sm-6">
                             <form class="form-inline float-right">
                                 <label class="sr-only" for="inlineFormInputGroupUsername">Search</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" v-model="searchField" placeholder="Search" />
+                                    <input type="text" class="form-control" placeholder="Search" />
                                     <div class="input-group-prepend">
                                         <a class="btn btn-primary btn-sm input-group-text" href="#">
                                             <i class="fa fa-search"></i>
@@ -45,7 +45,13 @@
                     <table class="table table-striped table-bordered table-hover">
                         <thead class="thead-dark">
                             <tr>
-                                {{-- <th scope="col"></th> --}}
+                                <th scope="col">
+                                    <div class="form-check tb-check">
+                                        <input class="form-check-input check_all_boxes" type="checkbox"
+                                         onclick="checkAllProducts()" />
+                                        <label class="form-check-label" for="defaultCheck1"></label>
+                                    </div>
+                                </th>
                                 <th scope="col">#</th>
                                 <th scope="col">Title</th>
                                 <th scope="col">Slug</th>
@@ -60,11 +66,13 @@
                         <tbody>
                             @foreach ($products as $key => $product)
                                 <tr>
-                                    {{-- <th>
-                                        <form action="">
-                                            <input type="checkbox" name="prod_ids[]" value="{{ $product->id }}">
-                                        </form>
-                                    </th> --}}
+                                    <th>
+                                        <div class="form-check tb-check">
+                                            <input class="form-check-input prod_checkbox" type="checkbox"
+                                            data-id="{{ $product->id }}"/>
+                                            <label class="form-check-label" for="defaultCheck1"></label>
+                                        </div>
+                                    </th>
                                     <th scope="row">{{ $loop->iteration }}</th>
                                     <td>{{ Str::limit($product->title, 25) }}</td>
                                     <td>{{ Str::limit($product->slug, 25) }}</td>
@@ -83,12 +91,17 @@
                                         <a href="{{ route('products.show', $product->id) }}" class="btn btn-primary btn-sm">
                                             <i class="fa fa-eye"></i>
                                         </a>
-                                        <a href="{{ route('products.edit', $product->id) }}" class="btn btn-warning btn-sm">
+                                        <a href="{{ route('products.edit', $product->id) }}" class="btn btn-success btn-sm">
                                             <i class="fa fa-pencil"></i>
                                         </a>
-                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteProduct">
+                                        {{-- <a href="{{ route('products.destroy', $product->id) }}" id="del_prod{{ $product->id }}"
+                                            onclick="deleteProduct({{ $product->id }})" class="btn btn-danger btn-sm single_del">
                                             <i class="fa fa-trash"></i>
-                                        </button>
+                                        </a> --}}
+                                        {{-- <button type="button" class="btn btn-danger btn-sm single_del" id="del_prod{{ $product->id }}"
+                                            onclick="deleteProduct({{ $product->id }})" data-toggle="modal" data-target="#deleteProduct">
+                                            <i class="fa fa-trash"></i>
+                                        </button> --}}
                                     </td>
                                 </tr>
                             @endforeach
@@ -101,7 +114,7 @@
             </div>
         </div>
         <!-- Modal to confirm deletion -->
-        <div class="modal fade" id="deleteProduct" tabindex="-1" role="dialog" aria-labelledby="deleteProductModalLabel" aria-hidden="true">
+        <div class="modal fade" id="delete_product" tabindex="-1" role="dialog" aria-labelledby="deleteProductModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -114,15 +127,103 @@
                         Are you sure you want to delete?
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
-                        <form id="delete-form" action="{{ route('products.destroy', $product->id) }}" method="POST">
+                        <p class="override_content"></p>
+                        <form id="delete-product-form" action="{{ route('products.destroy', $product->id) }}" method="POST">
                             @method('DELETE')
                             @csrf
+                            <input type="hidden" id="multiple_ids" name="multiple_ids">
                             <button type="submit" class="btn btn-danger">Yes, Delete!</button>
                         </form>
+                        <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+    <script>
+        function checkAllProducts() {
+            const allCheckboxInputs = document.querySelectorAll(".prod_checkbox")
+
+            if(document.querySelector(".check_all_boxes").checked === true) {
+                return allCheckboxInputs.forEach((el) => {
+                    el.checked = true
+                })
+            }
+            return allCheckboxInputs.forEach((el) => {
+                el.checked = false
+            })
+        }
+        /* function checkProducts() {
+            const allCheckboxInputs = document.querySelectorAll(".prod_checkbox")
+            for (const el of allCheckboxInputs) {
+                if(el.checked == true)
+                {
+                    document.querySelector(".multiple-delete").classList.remove('d-none')
+                    // const allBtns = document.querySelectorAll('.single_del')
+                    // allBtns.forEach((ele) => {
+                    //     ele.classList.add('d-none')
+                    // })
+                    break
+                }
+                else {
+                    document.querySelector(".multiple-delete").classList.add('d-none')
+                    // const allBtns = document.querySelectorAll('.single_del')
+                    // allBtns.forEach((ele) => {
+                    //     ele.classList.remove('d-none')
+                    // })
+                }
+            }
+        } */
+        function getCheckedCategories() {
+            const allCheckboxInputs = document.querySelectorAll(".prod_checkbox")
+            let allCheckedCategories = []
+            allCheckboxInputs.forEach((el) => {
+                if(el.checked === true)
+                {
+                    const data_id = el.getAttribute('data-id')
+                    allCheckedCategories.push(data_id)
+                }
+            })
+            return allCheckedCategories
+        }
+        function deleteProducts() {
+            if(getCheckedCategories().length < 1 ) {
+                alert("You must select one product")
+                // return noSelectedCheckbox()
+            }
+            else if(getCheckedCategories().length > 1) {
+                const form = document.querySelector("#delete-product-form")
+                                .setAttribute('action', "{{ route('products.delete-multiple') }}")
+            } else {
+                const url = "route('products.destroy', " + getCheckedCategories() + ")"
+                const form = document.querySelector("#delete-product-form")
+                                .setAttribute('action', "{{" + url + "}}")
+            }
+            document.querySelector("#multiple_ids").setAttribute('value', getCheckedCategories())
+            $('#delete_product').modal('show')
+        }
+
+        function noSelectedCheckbox() {
+            const modal_header_content = "<span class='text-danger'><i class='fa fa-warning text-danger'></i> No Product Selected !!</span>"
+            document.querySelector("#delete_product .modal-header h5").innerHTML = modal_header_content
+
+            const modal_body_content = "<i class='fa fa-warning text-danger'></i> You must select at least one Product!!!"
+            document.querySelector("#delete_product .modal-body").innerHTML = modal_body_content
+
+            // const modal_footer_content = '<button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-arrow-left"></i> Go Back</button>'
+            document.querySelector("#delete_product .modal-footer form").style.display = "none"
+            // document.querySelector("#delete_product .modal-footer .override_content").innerHTML = modal_footer_content
+
+            $('#delete_product').modal('show')
+            // document.querySelector("#delete_product .modal-footer .btn-success").style.display = "none !important"
+        }
+        // function deleteProduct(product_id) {
+        //     event.preventDefault()
+        //     const href_url = document.querySelector("#del_prod"+product_id).getAttribute('href')
+        //     const form = document.querySelector("#delete-product-form").setAttribute('action', href_url)
+        //     $('#delete_product').modal('show')
+        // }
+    </script>
 @endsection

@@ -65,7 +65,7 @@
                                 <button class="btn btn-success px-1 py-1 new_category" onclick="newCategory()"><i class="fa fa-plus"></i> New</button>
                                 {{-- <a href="" class="btn btn-success px-1 py-1 new_category"><i class="fa fa-plus"></i> New</a> --}}
                                 <a href="#" class="btn btn-primary px-1 py-1"><i class="fa fa-print"></i> Print</a>
-                                <a href="javascript:;" class="btn btn-danger px-1 py-1" onclick="deleteAll()"><i class="fa fa-trash"></i> Delete</a>
+                                <a href="javascript:;" class="btn btn-danger px-1 py-1 d-none multiple-delete" onclick="deleteAll()"><i class="fa fa-trash"></i> Delete</a>
                             </h5>
                         </div>
                         <div class="col-sm-6">
@@ -184,6 +184,7 @@
             for (const el of allCheckboxInputs) {
                 if(el.checked == true)
                 {
+                    document.querySelector(".multiple-delete").classList.remove('d-none')
                     const allBtns = document.querySelectorAll('.single_del')
                     allBtns.forEach((ele) => {
                         ele.classList.add('d-none')
@@ -191,6 +192,7 @@
                     break
                 }
                 else {
+                    document.querySelector(".multiple-delete").classList.add('d-none')
                     const allBtns = document.querySelectorAll('.single_del')
                     allBtns.forEach((ele) => {
                         ele.classList.remove('d-none')
@@ -229,7 +231,6 @@
             clearValidation()
 
             document.querySelector('.add_category').classList.toggle('d-none')
-            // document.querySelector('.add_category').classList.toggle .addClass('d-block')
         }
         // Example starter JavaScript for disabling form submissions if there are invalid fields
         (function() {
