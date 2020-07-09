@@ -6,10 +6,12 @@ use App\Http\Requests\Products\AddProductRequest;
 use App\Http\Requests\Products\EditProductRequest;
 use App\Models\Category;
 use App\Models\Product;
+use ErrorException;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Str;
+use Symfony\Component\HttpFoundation\File\Exception\NoFileException;
 
 class ProductsController extends Controller
 {
@@ -105,13 +107,20 @@ class ProductsController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $image_name = $this->storeUploadedImage($request);
+        $image_name = $this->storeUploadedImage($request); // Get Image Name;
+        //Check if we received correct Image Name
+        if(!$image_name['status']) {
+            // $new_file_dir = substr($request->title, 0, -3);
+            $this->deleteStoredImage("products/".$request->title."/".$image_name['filename']);
 
-        if($image_name) {
-            $old_image_url = $product->image; //Get old image url
-            $product->image = $image_name; //Replace new image to database
+            return redirect()->route('products.edit', $product->id)
+                            ->withErrors(['title' => 'Enter a correct title'])
+                            ->withInput();
         }
 
+        $this->deleteStoredImage($product->image);
+
+        $product->image = $image_name['filename']; //Replace new image to database
         $product->category_id = $request->category;
         $product->title =  $request->title;
         $product->slug = Str::slug($request->title);
@@ -120,8 +129,6 @@ class ProductsController extends Controller
         $product->quantity = $request->stock;
         $product->updated_by = auth()->user()->id;
         $product->save();
-
-        Storage::delete('/public/'.$old_image_url); //Delete old image from disk
 
         return redirect()->route('products.index')->with(['status' => 'Updated Product successfully']);
     }
@@ -141,22 +148,30 @@ class ProductsController extends Controller
 
     public function deleteMultiple(Request $request)
     {
-        // $ids = $request->multiple_ids;
         $product = Product::destroy(explode(",", $request->multiple_ids));
 
         if ($product) {
-            return redirect()->route('products.index')->with('status', $request->multiple_ids.' - Products Deleted successfully');
+            return redirect()->route('products.index')->with('status', 'Products Deleted successfully');
         }
     }
 
     protected function storeUploadedImage($request)
     {
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            if ($image_name = $image->store('products/'.$request->title, "public")) {
-                // $image_name = $name;
-                return $image_name;
+            $image_extension = $request->file('image')->getClientOriginalExtension();
+            $filename = Str::random(40).".".$image_extension;
+            try {
+                $image_name = $request->file('image')->storeAs('products/'.$request->title, $filename, 'public');
+                return ['status' => true, 'filename' => $image_name ];
+            } catch (ErrorException $e) {
+                return ['status' => false, 'filename' => $filename ];
             }
+        }
+    }
+    protected function deleteStoredImage($old_image_name)
+    {
+        if (Storage::disk('local')->exists('public/'.$old_image_name)) { //Check if old image exists
+            Storage::disk('local')->delete('public/'.$old_image_name); //Delete old image from disk
         }
     }
 }
