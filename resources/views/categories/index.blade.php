@@ -62,17 +62,19 @@
                         <div class="col-sm-6">
                             <h2 class="float-left text-primary font-italic">Categories</h2>
                             <h5 class="text-right">
-                                <button class="btn btn-success px-1 py-1 new_category" onclick="newCategory()"><i class="fa fa-plus"></i> New</button>
-                                {{-- <a href="" class="btn btn-success px-1 py-1 new_category"><i class="fa fa-plus"></i> New</a> --}}
+                                <button class="btn btn-success px-1 py-1 new_category"
+                                    onclick="newCategory()"> <i class="fa fa-plus"></i> New</button>
                                 <a href="#" class="btn btn-primary px-1 py-1"><i class="fa fa-print"></i> Print</a>
-                                <a href="javascript:;" class="btn btn-danger px-1 py-1 d-none multiple-delete" onclick="deleteAll()"><i class="fa fa-trash"></i> Delete</a>
+                                <a href="javascript:;" class="btn btn-danger px-1 py-1 d-none multiple-delete"
+                                    onclick="deleteAll()"><i class="fa fa-trash"></i> Delete</a>
                             </h5>
                         </div>
                         <div class="col-sm-6">
                             <form class="form-inline float-right">
                                 <label class="sr-only" for="inlineFormInputGroupUsername">Search</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search" /> <div class="input-group-prepend">
+                                    <input type="text" class="form-control" placeholder="Search" />
+                                    <div class="input-group-prepend">
                                         <a class="btn btn-primary btn-sm input-group-text" href="#">
                                             <i class="fa fa-search"></i>
                                         </a>

@@ -79,15 +79,19 @@ nav.navbar {
         // color: #3490dc;
     }
 }
-.dashboard {
+.dashboard a {
     color: #fff;
     font-size: 1.55rem;
     font-weight: bold;
+    text-decoration: none;
+    i {
+        font-size: 1.75rem;
+    }
 }
 
 /****** End Sidebar Styles******/
 
-/****** Products Styles******/
+/****** Main Content Styles******/
 .cont-title .input-group-text {
     background-color: #3490dc;
     border-color: #3490dc;
@@ -124,7 +128,49 @@ nav.navbar {
     padding-right: 5px;
     padding-left: 10px;
 }
-/****** End Products Styles******/
+/****** End Main Content Styles******/
+
+/****** Dashboard Page Styles******/
+.ad-dash {
+    background-color: #fff;
+    min-height: 42rem;
+    margin-left: -.2rem;
+    margin-right: .2rem;
+    padding: 1rem;
+    .cont-body {
+        height: auto;
+    }
+    .col-sm-3 {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+    .ad-summary {
+        .col-sm-3 {
+            max-width: 23%;
+            border: 1px solid rgba(0, 0, 0, 0.125);
+            border-radius: 0.25rem;
+        }
+        .col-sm-3:nth-child(2) a {
+            background: #bd366f !important;
+        }
+        .col-sm-3:nth-child(4) a {
+            background: #e1a515 !important;
+        }
+        a {
+            display: block;
+            padding: 1.5rem 1rem;
+            font-size: 1.3rem;
+            text-decoration: none;
+            width: 70%;
+            float: left;
+        }
+        h2 {
+            padding-top: 2rem;
+            text-align: center;
+        }
+    }
+}
+/****** End Dashboard Page Styles******/
 
 
 

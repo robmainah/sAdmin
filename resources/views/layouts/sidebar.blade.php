@@ -1,7 +1,9 @@
 <div id="sidebar-wrapper" class="admin-sidebar">
     <ul class="list-group rounded-0">
         <li class="list-group-item bg-dark dashboard">
-            <span> <i class="menu-icon fa fa-tachometer-alt"></i> </span>DASHBOARD
+            <a href="{{ route('home') }}" class="">
+               <i class="menu-icon fa fa-tachometer"></i> DASHBOARD
+            </a>
         </li>
     </ul>
     <div class="sidebar-nav">

@@ -19,9 +19,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-// Route::get('/products', 'ProductsController@index')->name('products');
+Route::get('/home', 'DashboardController@index');
+Route::get('/dashboard', 'DashboardController@index')->name('home');
+// Products
 Route::resource('products', 'ProductsController');
 Route::delete('products-delete-multiple', 'ProductsController@deleteMultiple')->name('products.delete-multiple');
+// Categories
 Route::resource('categories', 'CategoriesController');
 Route::delete('categories-delete-multiple', 'CategoriesController@deleteMultiple')->name('categories.delete-multiple');
