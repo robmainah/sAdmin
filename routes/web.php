@@ -17,9 +17,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
-Route::get('/home', 'DashboardController@index');
+// Route::get('/home', 'DashboardController@index');
 Route::get('/dashboard', 'DashboardController@index')->name('home');
 // Products
 Route::resource('products', 'ProductsController');

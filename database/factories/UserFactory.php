@@ -20,30 +20,22 @@ use phpDocumentor\Reflection\Types\False_;
 
 $factory->define(User::class, function (Faker $faker) {
     static $password;
-    $regex = "/(\+254|0){1}[7]{1}([0-2]{1}[0-9]{1}|[9]{1}[0-2]{1})[0-9]{6}/";
-    $gender = $faker->randomElement(['Male', 'Female']);
-    $roles = $faker->randomElement([1, 2, 3, 4, 5]);
 
     return [
-        'user_code' => $faker->unique()->numberBetween(111111, 999999),
-        'user_name' => $faker->name($gender),
-        'email' => $faker->unique()->safeEmail,
+        'user_code' => $faker->unique()->numberBetween(1111111111, 9999999999),
+        'user_name' => 'Robert Kariuki',
+        'email' => 'robmainah@gmail.com',
         'email_verified_at' => null,
-        'phone_number' => $faker->regexify($regex),
-        'gender' => $gender,
+        'phone_number' => '254703249349',
+        'gender' => 'Male',
         'id_number' => rand(1111111, 9999999),
         'birth_date' => $faker->datetime,
-        'active' => $faker->boolean,
-        'roles' => $roles,
+        'is_active' => True,
+        'roles' => 1,
         'email_verified_at' => now(),
         'password' => $password ?: $password = bcrypt('1234'),
-        // 'created_by' => function () {
-        //     return User::all()->random();
-        // },
-        // 'updated_by' => function () {
-        //     return User::all()->random();
-        // },
-        // 'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+        'created_by' => 1,
+        'updated_by' => 1,
         'remember_token' => Str::random(10),
     ];
 });

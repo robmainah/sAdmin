@@ -26,8 +26,8 @@ class CreateUsersTable extends Migration
             $table->string('birth_date');
             $table->string('active');
             $table->string('roles');
-            // $table->bigInteger('created_by')->unsigned();
-            // $table->bigInteger('updated_by')->unsigned();
+            $table->bigInteger('created_by')->unsigned();
+            $table->bigInteger('updated_by')->unsigned();
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
