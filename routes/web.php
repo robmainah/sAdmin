@@ -22,6 +22,8 @@ Auth::routes(['register' => false]);
 // Route::get('/home', 'DashboardController@index');
 Route::get('/dashboard', 'DashboardController@index')->name('home');
 // Products
+Route::get('products/export/csv', 'ProductsController@exportToExcel')->name('products.export.excel');
+Route::get('products/export/pdf', 'ProductsController@exportToPDF')->name('products.export.pdf');
 Route::resource('products', 'ProductsController');
 Route::delete('products-delete-multiple', 'ProductsController@deleteMultiple')->name('products.delete-multiple');
 // Categories

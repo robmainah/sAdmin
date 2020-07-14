@@ -12,7 +12,8 @@
                             <h2 class="float-left text-primary font-italic">Products</h2>
                             <h5 class="text-right">
                                 <a href="{{ route('products.create') }}" class="btn btn-success px-1 py-1"><i class="fa fa-plus"></i> New</a>
-                                <a href="#" class="btn btn-primary px-1 py-1 disabled"><i class="fa fa-print"></i> Print</a>
+                                <a href="{{ route('products.export.excel') }}" class="btn btn-primary px-1 py-1"><i class="fa fa-print"></i> Export to CSV</a>
+                                <a href="{{ route('products.export.pdf') }}" target="_blank" class="btn btn-primary px-1 py-1"><i class="fa fa-print"></i> Export to PDF</a>
                                 <a href="javascript:;" class="btn btn-danger px-1 py-1 delete_btn disabled" onclick="deleteProducts()"><i class="fa fa-trash"></i> Delete</a>
                             </h5>
                         </div>

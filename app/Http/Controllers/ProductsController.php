@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ProductsExport;
 use App\Http\Requests\Products\AddProductRequest;
 use App\Http\Requests\Products\EditProductRequest;
+use Illuminate\Support\Facades\Storage;
+use \Maatwebsite\Excel\Excel as MaatwebsiteExcel;
 use App\Models\Category;
 use App\Models\Product;
 use ErrorException;
-use Illuminate\Http\File;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Str;
-use Symfony\Component\HttpFoundation\File\Exception\NoFileException;
-
+use Excel;
+// use Illuminate\Support\Facades\App;
+use PDF;
 class ProductsController extends Controller
 {
     /**
@@ -105,7 +107,7 @@ class ProductsController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(EditProductRequest $request, Product $product)
     {
         $image_name = $this->storeUploadedImage($request); // Get Image Name;
         //Check if we received correct Image Name
@@ -141,7 +143,8 @@ class ProductsController extends Controller
      */
     public function destroy(Product $product)
     {
-        Product::destroy($product->id);
+        // Product::destroy($product->id);
+        $product->delete();
 
         return redirect()->route('products.index')->with('status', 'Product Deleted successfully');
     }
@@ -153,6 +156,28 @@ class ProductsController extends Controller
         if ($product) {
             return redirect()->route('products.index')->with('status', 'Products Deleted successfully');
         }
+    }
+
+    public function exportToExcel()
+    {
+        // return (new ProductsExport)->download('invoices.html', \Maatwebsite\Excel\Excel::DOMPDF);
+        // return Excel::raw(new ProductsExport, MaatwebsiteExcel::CSV);
+
+        return (new ProductsExport)->download('products.csv', MaatwebsiteExcel::CSV, [
+            'Content-Type' => 'text/csv',
+      ]);
+    }
+
+    public function exportToPDF()
+    {
+        $products = Product::all();
+        // $pdf = PDF::loadView('products.export_pdf', compact('products'));
+        // return $pdf->stream('products.export_pdf');
+        return PDF::loadView('products.export_pdf', compact('products'))
+                    // ->setPaper('a4', 'landscape')
+                    ->save(storage_path().'/app/store_file/_filename.pdf')
+                    ->stream('products.export_pdf.pdf');
+
     }
 
     protected function storeUploadedImage($request)
