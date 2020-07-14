@@ -25,11 +25,11 @@ class EditProductRequest extends FormRequest
     public function rules(Request $request)
     {
         return [
-            'title' => 'required|max:255|unique:products,title,'.$request->id,
+            'title' => 'required|max:255|unique:products,title,'. $this->product->id,
             'category' => 'required',
             'price' => 'required|numeric',
             'stock' => 'required|numeric',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'sometimes|required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'description' => 'required',
         ];
     }

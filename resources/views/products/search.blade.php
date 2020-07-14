@@ -35,9 +35,16 @@
                 </div>
             </div>
             <div class="card-body cont-body">
-                @if (session('status'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        {{ session('status') }}
+                @if ($search['search_input'])
+                    <div class="alert alert-success container alert-dismissible fade show" role="alert">
+                        You searched for : <strong>{{ $search['search_input'] }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @else
+                    <div class="alert alert-danger container alert-dismissible fade show" role="alert">
+                        Your search did not match anything!!
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

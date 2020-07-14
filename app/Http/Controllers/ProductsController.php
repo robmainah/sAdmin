@@ -109,20 +109,20 @@ class ProductsController extends Controller
      */
     public function update(EditProductRequest $request, Product $product)
     {
-        $image_name = $this->storeUploadedImage($request); // Get Image Name;
-        //Check if we received correct Image Name
-        if(!$image_name['status']) {
-            // $new_file_dir = substr($request->title, 0, -3);
-            $this->deleteStoredImage("products/".$request->title."/".$image_name['filename']);
+        // $image_name = $this->storeUploadedImage($request); // Get Image Name;
+        // //Check if we received correct Image Name
+        // if(!$image_name['status']) {
+        //     // $new_file_dir = substr($request->title, 0, -3);
+        //     $this->deleteStoredImage("products/".$request->title."/".$image_name['filename']);
 
-            return redirect()->route('products.edit', $product->id)
-                            ->withErrors(['title' => 'Enter a correct title'])
-                            ->withInput();
-        }
+        //     return redirect()->route('products.edit', $product->id)
+        //                     ->withErrors(['title' => 'Enter a correct title'])
+        //                     ->withInput();
+        // }
 
-        $this->deleteStoredImage($product->image);
+        // $this->deleteStoredImage($product->image);
 
-        $product->image = $image_name['filename']; //Replace new image to database
+        // $product->image = $image_name['filename']; //Replace new image to database
         $product->category_id = $request->category;
         $product->title =  $request->title;
         $product->slug = Str::slug($request->title);
@@ -166,6 +166,29 @@ class ProductsController extends Controller
         return (new ProductsExport)->download('products.csv', MaatwebsiteExcel::CSV, [
             'Content-Type' => 'text/csv',
       ]);
+    }
+
+    public function searchProduct(Request $request)
+    {
+        if (!empty($request->search_input)) {
+            $search_fields = ['title', 'slug', 'description'];
+            $products = Product::with('category:id,cat_name')->where(function($query) use ($request, $search_fields) {
+                $search_wildcard = '%'.$request->search_input.'%';
+                foreach ($search_fields as $field) {
+                    $query->orWhere($field, 'iLike', $search_wildcard);
+                }
+            })->paginate(10);
+
+            $search = ['search_input' => $request->search_input];
+        }
+        else
+        {
+            $products = Product::paginate(10);
+            $search = ['search_input' => false];
+        }
+
+
+        return view('products.search', compact('products', 'search'));
     }
 
     public function exportToPDF()
