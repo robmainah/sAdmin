@@ -59,9 +59,9 @@
                                 <th scope="col">Slug</th>
                                 <th scope="col">Category</th>
                                 <th scope="col">Price ( <strong>KSH</strong> )</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Created By</th>
-                                <th scope="col">Created On</th>
+                                <th scope="col">Stock</th>
+                                <th scope="col">Updated By</th>
+                                <th scope="col">Updated On</th>
                                 <th class="actions" scope="col"></th>
                             </tr>
                         </thead>
@@ -86,9 +86,9 @@
                                         @endif
                                     </td>
                                     <td>{{ number_format($product->price, 2) }}</td>
-                                    <td>{{ $product->quantity }}</td>
-                                    <td>{{ $product->created_by }}</td>
-                                    <td>{{ $product->created_at->format('Y-m-d') }}</td>
+                                    <td>{{ $product->stock }}</td>
+                                    <td>{{ $product->updated_by }}</td>
+                                    <td>{{ $product->updated_at->format('Y-m-d') }}</td>
                                     <td class="p-2">
                                         <a href="{{ route('products.show', $product->id) }}" class="btn btn-primary btn-sm">
                                             <i class="fa fa-eye"></i>

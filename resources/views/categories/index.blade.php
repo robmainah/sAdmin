@@ -102,7 +102,7 @@
                                 <th scope="col">#</th>
                                 <th scope="col">Catgory Code</th>
                                 <th scope="col">Category Name</th>
-                                <th scope="col">Active</th>
+                                <th scope="col">Is Active</th>
                                 <th scope="col">No. of Products</th>
                                 <th scope="col">Created By</th>
                                 <th scope="col">Created On</th>
@@ -123,7 +123,7 @@
                                     <td>{{ $category->cat_code }}</td>
                                     <td>{{ $category->cat_name }}</td>
                                     <td>
-                                        @if ($category->active)
+                                        @if ($category->is_active)
                                             <span class="text-success">Active</span>
                                         @else
                                             <span class="text-danger">Inactive</span>

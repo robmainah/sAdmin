@@ -23,8 +23,8 @@ $factory->define(User::class, function (Faker $faker) {
 
     return [
         'user_code' => $faker->unique()->numberBetween(1111111111, 9999999999),
-        'user_name' => 'Robert Kariuki',
-        'email' => 'robmainah@gmail.com',
+        'user_name' => 'January February',
+        'email' => 'january@gmail.com',
         'email_verified_at' => null,
         'phone_number' => '254703249349',
         'gender' => 'Male',

@@ -37,7 +37,7 @@ class Category extends Model
     public function scopeGenerateCategoryCode($query)
     {
         $random_code = rand(1111111111, 9999999999);
-        $value = $query->where('cat_code', $random_code)->get();
+        $value = $query->where('cat_code', $random_code)->get(); //Check if the generated code is taken
         if (count($value) > 0) {
             return Self::generateCategoryCode();
         }

@@ -31,7 +31,7 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = Product::latest()->with('category')->paginate(10);
+        $products = Product::latest('updated_at')->with('category')->paginate(10);
         return view('products.index', [ 'products' => $products ]);
     }
 
@@ -65,7 +65,7 @@ class ProductsController extends Controller
             $product->slug = Str::slug($request->title);
             $product->description = $request->description;
             $product->price = $request->price;
-            $product->quantity = $request->stock;
+            $product->stock = $request->stock;
             $product->created_by = auth()->user()->id;
             $product->updated_by = auth()->user()->id;
             $product->image = $image_name;
@@ -128,7 +128,7 @@ class ProductsController extends Controller
         $product->slug = Str::slug($request->title);
         $product->description = $request->description;
         $product->price = $request->price;
-        $product->quantity = $request->stock;
+        $product->stock = $request->stock;
         $product->updated_by = auth()->user()->id;
         $product->save();
 
@@ -161,11 +161,24 @@ class ProductsController extends Controller
     public function exportToExcel()
     {
         // return (new ProductsExport)->download('invoices.html', \Maatwebsite\Excel\Excel::DOMPDF);
+        // return Excel::download(new ProductsExport, 'products.csv);
         // return Excel::raw(new ProductsExport, MaatwebsiteExcel::CSV);
 
         return (new ProductsExport)->download('products.csv', MaatwebsiteExcel::CSV, [
             'Content-Type' => 'text/csv',
       ]);
+    }
+
+    public function exportToPDF()
+    {
+        $products = Product::all();
+        // $pdf = PDF::loadView('products.export_pdf', compact('products'));
+        // return $pdf->stream('products.export_pdf');
+        return PDF::loadView('products.export_pdf', compact('products'))
+                    // ->setPaper('a4', 'landscape')
+                    ->save(storage_path().'/app/store_file/_filename.pdf')
+                    ->stream('products.export_pdf.pdf');
+
     }
 
     public function searchProduct(Request $request)
@@ -183,24 +196,11 @@ class ProductsController extends Controller
         }
         else
         {
-            $products = Product::paginate(10);
+            $products = Product::with('category')->latest('updated_at')->paginate(10);
             $search = ['search_input' => false];
         }
 
-
         return view('products.search', compact('products', 'search'));
-    }
-
-    public function exportToPDF()
-    {
-        $products = Product::all();
-        // $pdf = PDF::loadView('products.export_pdf', compact('products'));
-        // return $pdf->stream('products.export_pdf');
-        return PDF::loadView('products.export_pdf', compact('products'))
-                    // ->setPaper('a4', 'landscape')
-                    ->save(storage_path().'/app/store_file/_filename.pdf')
-                    ->stream('products.export_pdf.pdf');
-
     }
 
     protected function storeUploadedImage($request)

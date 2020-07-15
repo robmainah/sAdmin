@@ -43,12 +43,14 @@
                         </button>
                     </div>
                 @else
-                    <div class="alert alert-danger container alert-dismissible fade show" role="alert">
-                        Your search did not match anything!!
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+                    @if (!$search['search_input'])
+                        <div class="alert alert-danger container alert-dismissible fade show" role="alert">
+                            Your search did not match anything!!
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
                 @endif
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered table-hover">
@@ -66,9 +68,9 @@
                                 <th scope="col">Slug</th>
                                 <th scope="col">Category</th>
                                 <th scope="col">Price ( <strong>KSH</strong> )</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Created By</th>
-                                <th scope="col">Created On</th>
+                                <th scope="col">Stock</th>
+                                <th scope="col">Updated By</th>
+                                <th scope="col">Updated On</th>
                                 <th class="actions" scope="col"></th>
                             </tr>
                         </thead>
@@ -93,9 +95,9 @@
                                         @endif
                                     </td>
                                     <td>{{ number_format($product->price, 2) }}</td>
-                                    <td>{{ $product->quantity }}</td>
-                                    <td>{{ $product->created_by }}</td>
-                                    <td>{{ $product->created_at->format('Y-m-d') }}</td>
+                                    <td>{{ $product->stock }}</td>
+                                    <td>{{ $product->updated_by }}</td>
+                                    <td>{{ $product->updated_at->format('Y-m-d') }}</td>
                                     <td class="p-2">
                                         <a href="{{ route('products.show', $product->id) }}" class="btn btn-primary btn-sm">
                                             <i class="fa fa-eye"></i>

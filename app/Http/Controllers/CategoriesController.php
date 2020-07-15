@@ -49,7 +49,7 @@ class CategoriesController extends Controller
 
         $cat->cat_code = Category::generateCategoryCode();
         $cat->cat_name = $request->name;
-        $cat->active = $request->status;
+        $cat->is_active = $request->status;
         $cat->created_by = auth()->user()->id;
         $cat->updated_by = auth()->user()->id;
 

@@ -67,7 +67,7 @@
                         <div class="col-md-6 form-group">
                             <label for="stock">Stock Quantity</label>
                             <input type="text" class="form-control {{ $errors->has('stock') ? 'is-invalid' : '' }}" name="stock" placeholder="Stock Quantity"
-                            value="{{ old('stock', $product->quantity) }}" required>
+                            value="{{ old('stock', $product->stock) }}" required>
                             @if ($errors->has('stock'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('stock') }}

@@ -24,7 +24,7 @@
 
         .position-ref {
             position: relative;
-            margin-top: -100px;
+            margin-top: -130px;
             z-index: -1;
         }
 
@@ -128,13 +128,13 @@
     @endsection
 @else
     @section('content')
-    <div class="flex-center position-ref full-height">
-        <div class="content">
-            <div class="title m-b-md">
-                Shopit E-commerce
+        <div class="flex-center position-ref full-height">
+            <div class="content">
+                <div class="title m-b-md">
+                    Shopit E-commerce
+                </div>
             </div>
         </div>
-    </div>
     @endsection
 @endauth
 
