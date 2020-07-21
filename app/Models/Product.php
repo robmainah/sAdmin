@@ -17,6 +17,12 @@ class Product extends Model
     {
         return $this->belongsTo('App\User', 'updated_by');
     }
+
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class, 'order_product');
+    }
+
     public function getTitleAttribute($value)
     {
         return $this->attributes['title'] = ucwords($value);

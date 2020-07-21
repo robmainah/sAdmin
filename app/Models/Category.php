@@ -22,6 +22,10 @@ class Category extends Model
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
+    public function orders()
+    {
+        return $this->hasManyThrough(Order::class, Product::class);
+    }
     public function getCreatedByAttribute($value)
     {
         return User::where('id', $value)->first()->user_name;

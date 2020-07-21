@@ -24,7 +24,7 @@
             </a>
         </div>
         <div class="list-group">
-            <a href="#" class="list-group-item list-group-item-action">
+            <a href="{{ route('orders.index') }}" class="list-group-item list-group-item-action">
                 <span>
                     <i class="fa fa-money"></i>
                 </span>
@@ -45,6 +45,14 @@
                     <i class="fa fa-user"></i>
                 </span>
                 <span>Users</span>
+            </a>
+        </div>
+        <div class="list-group">
+            <a href="{{ route('customers.index') }}" class="list-group-item list-group-item-action">
+                <span>
+                    <i class="fa fa-user"></i>
+                </span>
+                <span>Customers</span>
             </a>
         </div>
         <div class="list-group">

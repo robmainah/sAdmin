@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Exports\ProductsExport;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Products\AddProductRequest;
 use App\Http\Requests\Products\EditProductRequest;
 use Illuminate\Support\Facades\Storage;
@@ -56,9 +57,9 @@ class ProductsController extends Controller
     {
         $product = new Product;
 
-        $image_name = $this->storeUploadedImage($request);
+        $image_name = $this->storeUploadedImage($request, null);
 
-        if($image_name) {
+        if($image_name['status']) {
             $product->prod_code = Product::generateProductCode();
             $product->category_id = $request->category;
             $product->title =  $request->title;
@@ -68,7 +69,7 @@ class ProductsController extends Controller
             $product->stock = $request->stock;
             $product->created_by = auth()->user()->id;
             $product->updated_by = auth()->user()->id;
-            $product->image = $image_name;
+            $product->image_url = $image_name['filename'];
 
             //TODO ===== prevent storing images if data was not entered in database
             $product->save();
@@ -109,20 +110,23 @@ class ProductsController extends Controller
      */
     public function update(EditProductRequest $request, Product $product)
     {
-        // $image_name = $this->storeUploadedImage($request); // Get Image Name;
-        // //Check if we received correct Image Name
-        // if(!$image_name['status']) {
-        //     // $new_file_dir = substr($request->title, 0, -3);
-        //     $this->deleteStoredImage("products/".$request->title."/".$image_name['filename']);
+        $image_name = $this->storeUploadedImage($request, $product->image_url); // Get Image Name;
+        //Check if we received correct Image Name
+        if(!$image_name['status']) {
+            // $new_file_dir = substr($request->title, 0, -3);
+            $this->deleteStoredImage("products/".$request->title."/".$image_name['filename']);
 
-        //     return redirect()->route('products.edit', $product->id)
-        //                     ->withErrors(['title' => 'Enter a correct title'])
-        //                     ->withInput();
-        // }
+            return redirect()->route('products.edit', $product->id)
+            ->withErrors(['title' => 'Enter a correct title'])
+            ->withInput();
+        }
+        else
+        {
+            $this->deleteStoredImage($product->image_url);
+        }
 
-        // $this->deleteStoredImage($product->image);
 
-        // $product->image = $image_name['filename']; //Replace new image to database
+        $product->image_url = $image_name['filename']; //Replace new image to database
         $product->category_id = $request->category;
         $product->title =  $request->title;
         $product->slug = Str::slug($request->title);
@@ -203,7 +207,7 @@ class ProductsController extends Controller
         return view('products.search', compact('products', 'search'));
     }
 
-    protected function storeUploadedImage($request)
+    protected function storeUploadedImage($request, $old_image_name)
     {
         if ($request->hasFile('image')) {
             $image_extension = $request->file('image')->getClientOriginalExtension();
@@ -215,6 +219,7 @@ class ProductsController extends Controller
                 return ['status' => false, 'filename' => $filename ];
             }
         }
+        return ['status' => false, 'filename' => $old_image_name ];
     }
     protected function deleteStoredImage($old_image_name)
     {

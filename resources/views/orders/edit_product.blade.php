@@ -84,7 +84,7 @@
                                 <label class="custom-file-label" for="chooseimage">Choose image...</label>
                                 <input type="file" onchange="imageUpload(event)"
                                 class="custom-file-input {{ $errors->has('image') ? 'is-invalid' : '' }}" name="image"
-                                value="{{ old('image', $product->image_url) }}">
+                                value="{{ old('image', $product->image) }}">
                                 @if ($errors->has('image'))
                                     <div class="invalid-feedback">
                                         {{ $errors->first('image') }}
@@ -93,7 +93,7 @@
                                     <div class="invalid-feedback"> Choose preferred product image </div>
                                 @endif
                             </div>
-                            <img class="form-group mt-3 ml-3" id="show_image" src="{{ asset('storage/'.$product->image_url) }}" alt width="200px" height="200px" />
+                            <img class="form-group mt-3 ml-3" id="show_image" src="{{ asset('storage/'.$product->image) }}" alt width="200px" height="200px" />
                         </div>
                         <div class="col-md-6 form-group">
                             <label for="description">Product Description</label>

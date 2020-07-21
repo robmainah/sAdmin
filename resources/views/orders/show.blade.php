@@ -14,7 +14,7 @@
                         <tbody>
                             <tr>
                                 <th scope="col">Image</th>
-                                <td class="p-1"><img src="{{ asset('storage/'.$product->image_url) }}"></td>
+                                <td class="p-1"><img src="{{ asset('storage/'.$product->image) }}"></td>
                             </tr>
                             <tr>
                                 <th scope="col">Product Code</th>
